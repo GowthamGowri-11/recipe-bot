@@ -1,0 +1,1638 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe AI - 500 Famous Indian Recipes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --light: #f1f5f9;
+            --white: #ffffff;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-green: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            --gradient-orange: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            --gradient-red: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.1);
+            --radius: 20px;
+            --radius-sm: 12px;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--gradient);
+            min-height: 100vh;
+            color: var(--dark);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 40px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--gradient);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 90px;
+            height: 90px;
+            background: var(--gradient);
+            border-radius: 50%;
+            margin: 0 auto 15px auto;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .logo-container i {
+            font-size: 2.5rem;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .tagline {
+            color: var(--gray);
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: var(--light);
+            border-radius: 30px;
+            font-weight: 500;
+        }
+
+        .stat.veg {
+            color: var(--secondary);
+        }
+
+        .stat.nonveg {
+            color: var(--danger);
+        }
+
+        .stat i {
+            font-size: 1.2rem;
+        }
+
+        .nav-btns {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            background: var(--light);
+            border: none;
+            padding: 10px 18px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: var(--gradient);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Search Section */
+        .search-section {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 40px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow);
+        }
+
+        .search-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .search-title h2 {
+            font-size: 1.8rem;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .search-title p {
+            color: var(--gray);
+        }
+
+        .search-box {
+            display: flex;
+            gap: 15px;
+            max-width: 700px;
+            margin: 0 auto 25px;
+            position: relative;
+        }
+
+        .search-input-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
+        .search-input-wrapper i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+            font-size: 1.2rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 18px 20px 18px 55px;
+            border: 2px solid var(--light);
+            border-radius: var(--radius-sm);
+            font-size: 1.1rem;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+
+        .search-btn {
+            padding: 18px 35px;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+        }
+
+        .search-hints {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .hint-label {
+            color: var(--gray);
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+        }
+
+        .hint-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .hint-tag {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border: 2px solid transparent;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hint-tag:hover {
+            border-color: var(--primary);
+            background: white;
+            transform: translateY(-2px);
+        }
+
+        .hint-tag i {
+            font-size: 1.1rem;
+        }
+
+        .hint-tag.veg i {
+            color: var(--secondary);
+        }
+
+        .hint-tag.nonveg i {
+            color: var(--danger);
+        }
+
+        .browse-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 0 auto;
+            padding: 16px 35px;
+            background: var(--gradient-green);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .browse-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Cards & Sections */
+        .section {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 35px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-header h2 i {
+            color: var(--primary);
+        }
+
+        .back-btn {
+            background: var(--light);
+            border: none;
+            padding: 12px 22px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: var(--dark);
+            color: white;
+        }
+
+        /* Results Info */
+        .results-info {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            padding: 18px 25px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 500;
+            color: #065f46;
+        }
+
+        .results-info i {
+            font-size: 1.3rem;
+        }
+
+        .results-info.keyword {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            color: #92400e;
+        }
+
+        /* Recipe Grid */
+        .recipe-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .recipe-card {
+            background: var(--white);
+            border-radius: var(--radius-sm);
+            padding: 25px;
+            cursor: pointer;
+            border: 2px solid var(--light);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .recipe-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--gradient);
+        }
+
+        .recipe-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .recipe-card.veg::before {
+            background: var(--gradient-green);
+        }
+
+        .recipe-card.nonveg::before {
+            background: var(--gradient-red);
+        }
+
+        .recipe-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .recipe-card h3 {
+            font-size: 1.2rem;
+            color: var(--dark);
+            flex: 1;
+        }
+
+        .recipe-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .recipe-badge.veg {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .recipe-badge.nonveg {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .recipe-match {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--secondary);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .recipe-match i {
+            font-size: 1rem;
+        }
+
+        .recipe-missing {
+            color: var(--accent);
+            font-size: 0.9rem;
+        }
+
+        .recipe-missing.complete {
+            color: var(--secondary);
+        }
+
+        .recipe-missing i {
+            margin-right: 5px;
+        }
+
+        /* Category Section */
+        .category-type {
+            margin-bottom: 35px;
+        }
+
+        .category-type-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--light);
+        }
+
+        .category-type-header h3 {
+            font-size: 1.3rem;
+        }
+
+        .category-type-header.veg h3 {
+            color: var(--secondary);
+        }
+
+        .category-type-header.nonveg h3 {
+            color: var(--danger);
+        }
+
+        .category-type-header i {
+            font-size: 1.5rem;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 15px;
+        }
+
+        .category-card {
+            background: var(--light);
+            border-radius: var(--radius-sm);
+            padding: 22px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-left: 4px solid var(--primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .category-card:hover {
+            transform: translateX(8px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .category-card.veg {
+            border-left-color: var(--secondary);
+        }
+
+        .category-card.veg:hover {
+            background: #ecfdf5;
+        }
+
+        .category-card.nonveg {
+            border-left-color: var(--danger);
+        }
+
+        .category-card.nonveg:hover {
+            background: #fef2f2;
+        }
+
+        .category-card h4 {
+            font-size: 1rem;
+            color: var(--dark);
+        }
+
+        .category-card span {
+            background: var(--white);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--gray);
+        }
+
+        /* Dishes Grid */
+        .dishes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+        }
+
+        .dish-card {
+            background: var(--light);
+            padding: 20px 15px;
+            border-radius: var(--radius-sm);
+            text-align: center;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .dish-card:hover {
+            background: var(--gradient);
+            color: white;
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        /* Recipe Detail */
+        .recipe-detail-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid var(--light);
+        }
+
+        .recipe-detail-header h1 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+
+        .recipe-type-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+        }
+
+        .recipe-type-badge.veg {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .recipe-type-badge.nonveg {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .recipe-type-badge i {
+            font-size: 1.1rem;
+        }
+
+        .recipe-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .recipe-box {
+            background: var(--light);
+            border-radius: var(--radius-sm);
+            padding: 30px;
+        }
+
+        .recipe-box h3 {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+
+        .recipe-box h3 i {
+            color: var(--primary);
+            font-size: 1.4rem;
+        }
+
+        .ingredients-list {
+            list-style: none;
+        }
+
+        .ingredients-list li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .ingredients-list li:last-child {
+            border-bottom: none;
+        }
+
+        .ingredients-list li i {
+            color: var(--secondary);
+            font-size: 0.9rem;
+        }
+
+        .instructions-list {
+            list-style: none;
+            counter-reset: step;
+        }
+
+        .instructions-list li {
+            position: relative;
+            padding: 15px 0 15px 50px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .instructions-list li:last-child {
+            border-bottom: none;
+        }
+
+        .instructions-list li::before {
+            counter-increment: step;
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 15px;
+            width: 32px;
+            height: 32px;
+            background: var(--gradient);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        /* About Section */
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .about-card {
+            background: var(--light);
+            border-radius: var(--radius-sm);
+            padding: 25px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .about-card h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.15rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .about-card h3 i {
+            color: var(--primary);
+        }
+
+        .about-card p,
+        .about-card li {
+            color: var(--gray);
+            line-height: 1.8;
+        }
+
+        .about-card ul,
+        .about-card ol {
+            padding-left: 20px;
+        }
+
+        .developer-card {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-left-color: var(--accent);
+        }
+
+        .developer-info {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .developer-avatar {
+            width: 100px;
+            height: 100px;
+            background: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .developer-details h4 {
+            font-size: 1.4rem;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .developer-details>p {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .developer-details ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .developer-details li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        /* Loading */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid var(--light);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading p {
+            color: var(--gray);
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 25px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* No Results */
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .no-results i {
+            font-size: 4rem;
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+
+        .no-results h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .no-results p {
+            color: var(--gray);
+            margin-bottom: 25px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .search-box {
+                flex-direction: column;
+            }
+
+            .search-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .recipe-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .recipe-content {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .header {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .logo-container {
+                order: 1;
+            }
+
+            .header h1 {
+                order: 2;
+            }
+
+            .tagline {
+                order: 3;
+            }
+
+            .stats {
+                order: 4;
+                gap: 15px;
+            }
+
+            .nav-btns {
+                position: static;
+                justify-content: center;
+                margin-top: 20px;
+                order: 5;
+            }
+
+            .recipe-detail-header h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="nav-btns">
+                <button class="nav-btn" onclick="toggleAbout()"><i class="fas fa-info-circle"></i> About</button>
+            </div>
+            <div class="logo-container"><i class="fas fa-utensils"></i></div>
+            <h1>Recipe AI</h1>
+            <p class="tagline">Discover Delicious Indian Recipes</p>
+            <div class="stats">
+                <div class="stat veg"><i class="fas fa-leaf"></i> 250+ Veg Recipes</div>
+                <div class="stat nonveg"><i class="fas fa-drumstick-bite"></i> 250+ Non-Veg Recipes</div>
+            </div>
+        </header>
+
+        <section id="searchSection" class="search-section">
+            <div class="search-title">
+                <h2>What would you like to cook today?</h2>
+                <p>Search by dish name, ingredient, or food type</p>
+            </div>
+            <div class="search-box">
+                <div class="search-input-wrapper">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" class="search-input"
+                        placeholder="Try: chicken, biryani, paneer, dosa...">
+                </div>
+                <button class="search-btn" onclick="search()"><i class="fas fa-search"></i> Search</button>
+            </div>
+            <div class="search-hints">
+                <p class="hint-label">Popular searches:</p>
+                <div class="hint-tags">
+                    <button class="hint-tag nonveg" onclick="quickSearch('chicken')"><i
+                            class="fas fa-drumstick-bite"></i> Chicken</button>
+                    <button class="hint-tag nonveg" onclick="quickSearch('biryani')"><i class="fas fa-bowl-rice"></i>
+                        Biryani</button>
+                    <button class="hint-tag veg" onclick="quickSearch('paneer')"><i class="fas fa-cheese"></i>
+                        Paneer</button>
+                    <button class="hint-tag veg" onclick="quickSearch('dosa')"><i class="fas fa-plate-wheat"></i>
+                        Dosa</button>
+                    <button class="hint-tag nonveg" onclick="quickSearch('mutton')"><i class="fas fa-meat"></i>
+                        Mutton</button>
+                    <button class="hint-tag veg" onclick="quickSearch('dal')"><i class="fas fa-bowl-food"></i>
+                        Dal</button>
+                </div>
+            </div>
+            <button class="browse-btn" onclick="showCategories()"><i class="fas fa-th-large"></i> Browse All
+                Categories</button>
+        </section>
+
+        <section id="aboutSection" class="section hidden">
+            <div class="section-header">
+                <h2><i class="fas fa-info-circle"></i> About Recipe AI</h2>
+                <button class="back-btn" onclick="toggleAbout()"><i class="fas fa-times"></i> Close</button>
+            </div>
+            <div class="about-grid">
+                <div class="about-card">
+                    <h3><i class="fas fa-bullseye"></i> Project Overview</h3>
+                    <p>Recipe AI is a smart recipe finder that helps you discover delicious Indian dishes. Search by
+                        dish name, ingredient type, or browse categories.</p>
+                </div>
+                <div class="about-card">
+                    <h3><i class="fas fa-database"></i> Recipe Database</h3>
+                    <ul>
+                        <li><i class="fas fa-leaf" style="color:#10b981"></i> 250+ Vegetarian recipes</li>
+                        <li><i class="fas fa-drumstick-bite" style="color:#ef4444"></i> 250+ Non-Vegetarian recipes</li>
+                        <li><i class="fas fa-globe-asia"></i> South & North Indian cuisines</li>
+                    </ul>
+                </div>
+                <div class="about-card">
+                    <h3><i class="fas fa-cogs"></i> Smart Search</h3>
+                    <ol>
+                        <li>Type "chicken" → See all chicken dishes</li>
+                        <li>Type "biryani" → See all biryani varieties</li>
+                        <li>Type exact name → Get recipe directly</li>
+                        <li>Type ingredients → Find matching recipes</li>
+                    </ol>
+                </div>
+                <div class="about-card">
+                    <h3><i class="fas fa-star"></i> Features</h3>
+                    <ul>
+                        <li>🔍 Smart keyword search</li>
+                        <li>📋 Browse by categories</li>
+                        <li>🎯 Ingredient matching</li>
+                        <li>📱 Mobile responsive</li>
+                    </ul>
+                </div>
+                <div class="about-card developer-card">
+                    <h3><i class="fas fa-code"></i> Developer</h3>
+                    <div class="developer-info">
+                        <div class="developer-avatar">👨‍💻</div>
+                        <div class="developer-details">
+                            <h4>GOWTHAM GOWRI</h4>
+                            <p>AI & Data Science Enthusiast</p>
+                            <ul>
+                                <li><i class="fas fa-graduation-cap"></i> Passionate about AI applications</li>
+                                <li><i class="fas fa-laptop-code"></i> Full-stack developer</li>
+                                <li><i class="fas fa-heart"></i> Love for Indian cuisine</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="resultsSection" class="section hidden">
+            <div class="section-header">
+                <h2><i class="fas fa-search"></i> <span id="resultsTitle">Search Results</span></h2>
+                <button class="back-btn" onclick="showSearch()"><i class="fas fa-arrow-left"></i> Back</button>
+            </div>
+            <div id="resultsInfo" class="results-info"></div>
+            <div id="resultsGrid" class="recipe-grid"></div>
+        </section>
+
+        <section id="categoriesSection" class="section hidden">
+            <div class="section-header">
+                <h2><i class="fas fa-th-large"></i> Recipe Categories</h2>
+                <button class="back-btn" onclick="showSearch()"><i class="fas fa-arrow-left"></i> Back</button>
+            </div>
+            <div id="categoriesGrid"></div>
+        </section>
+
+        <section id="dishesSection" class="section hidden">
+            <div class="section-header">
+                <h2><i class="fas fa-list"></i> <span id="dishesTitle">Dishes</span></h2>
+                <button class="back-btn" onclick="showCategories()"><i class="fas fa-arrow-left"></i> Back</button>
+            </div>
+            <div id="dishesGrid" class="dishes-grid"></div>
+        </section>
+
+        <section id="recipeSection" class="section hidden">
+            <div class="section-header">
+                <button class="back-btn" onclick="goBack()"><i class="fas fa-arrow-left"></i> Back</button>
+            </div>
+            <div class="recipe-detail-header">
+                <h1 id="recipeTitle"></h1>
+                <span id="recipeTypeBadge" class="recipe-type-badge"></span>
+            </div>
+            <div class="recipe-content">
+                <div class="recipe-box">
+                    <h3><i class="fas fa-shopping-basket"></i> Ingredients</h3>
+                    <ul id="ingredientsList" class="ingredients-list"></ul>
+                </div>
+                <div class="recipe-box">
+                    <h3><i class="fas fa-list-ol"></i> Instructions</h3>
+                    <ol id="instructionsList" class="instructions-list"></ol>
+                </div>
+            </div>
+        </section>
+
+        <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+            <p>Finding delicious recipes...</p>
+        </div>
+
+        <footer class="footer">
+            <p>Made with ❤️ by <strong>GOWTHAM GOWRI</strong> | Recipe AI © 2025</p>
+        </footer>
+    </div>
+
+    <script>
+        // ============ RECIPE DATABASE ============
+        const recipes = {
+            // === VEG BREAKFAST ===
+            "Idli": { ingredients: ["rice", "urad dal", "salt", "water"], type: "veg", keywords: ["south indian", "breakfast", "healthy"] },
+            "Dosa": { ingredients: ["rice", "urad dal", "salt", "oil"], type: "veg", keywords: ["south indian", "breakfast", "crispy"] },
+            "Masala Dosa": { ingredients: ["rice", "urad dal", "potato", "onion", "turmeric", "mustard seeds"], type: "veg", keywords: ["south indian", "breakfast", "dosa"] },
+            "Rava Dosa": { ingredients: ["rava", "rice flour", "maida", "onion", "green chilli", "cumin"], type: "veg", keywords: ["south indian", "breakfast", "dosa", "instant"] },
+            "Uttapam": { ingredients: ["rice", "urad dal", "onion", "tomato", "green chilli"], type: "veg", keywords: ["south indian", "breakfast"] },
+            "Medu Vada": { ingredients: ["urad dal", "onion", "green chilli", "ginger", "curry leaves"], type: "veg", keywords: ["south indian", "breakfast", "snack"] },
+            "Pongal": { ingredients: ["rice", "moong dal", "black pepper", "cumin", "ginger", "ghee", "cashews"], type: "veg", keywords: ["south indian", "breakfast"] },
+            "Upma": { ingredients: ["rava", "onion", "green chilli", "ginger", "mustard seeds", "curry leaves"], type: "veg", keywords: ["south indian", "breakfast"] },
+            "Poha": { ingredients: ["poha", "onion", "potato", "peanuts", "turmeric", "curry leaves", "lemon"], type: "veg", keywords: ["breakfast", "maharashtrian"] },
+            "Aloo Paratha": { ingredients: ["wheat flour", "potato", "onion", "green chilli", "coriander", "cumin", "ghee"], type: "veg", keywords: ["north indian", "breakfast", "paratha"] },
+            "Gobi Paratha": { ingredients: ["wheat flour", "cauliflower", "onion", "green chilli", "garam masala", "ghee"], type: "veg", keywords: ["north indian", "breakfast", "paratha"] },
+            "Paneer Paratha": { ingredients: ["wheat flour", "paneer", "onion", "green chilli", "coriander", "ghee"], type: "veg", keywords: ["north indian", "breakfast", "paratha", "paneer"] },
+            "Methi Paratha": { ingredients: ["wheat flour", "methi leaves", "green chilli", "cumin", "ghee"], type: "veg", keywords: ["north indian", "breakfast", "paratha"] },
+            "Poori": { ingredients: ["wheat flour", "salt", "oil", "water"], type: "veg", keywords: ["north indian", "breakfast"] },
+            "Chole Bhature": { ingredients: ["maida", "chickpeas", "onion", "tomato", "ginger", "garlic", "chole masala"], type: "veg", keywords: ["north indian", "breakfast", "punjabi"] },
+            "Appam": { ingredients: ["rice", "coconut", "yeast", "sugar", "salt"], type: "veg", keywords: ["kerala", "breakfast"] },
+            "Puttu": { ingredients: ["rice flour", "coconut", "salt", "water"], type: "veg", keywords: ["kerala", "breakfast"] },
+            "Idiyappam": { ingredients: ["rice flour", "salt", "water", "oil"], type: "veg", keywords: ["kerala", "breakfast"] },
+            "Dhokla": { ingredients: ["gram flour", "curd", "ginger", "green chilli", "eno", "mustard seeds"], type: "veg", keywords: ["gujarati", "snack", "breakfast"] },
+            "Sabudana Khichdi": { ingredients: ["sabudana", "potato", "peanuts", "green chilli", "cumin", "ghee"], type: "veg", keywords: ["maharashtrian", "fasting", "breakfast"] },
+
+            // === VEG RICE ===
+            "Veg Biryani": { ingredients: ["rice", "mixed vegetables", "onion", "curd", "biryani masala", "mint", "ghee", "saffron"], type: "veg", keywords: ["biryani", "rice", "main course"] },
+            "Veg Pulao": { ingredients: ["rice", "mixed vegetables", "onion", "ginger", "whole spices", "ghee"], type: "veg", keywords: ["pulao", "rice", "main course"] },
+            "Jeera Rice": { ingredients: ["rice", "cumin", "ghee", "salt"], type: "veg", keywords: ["rice", "simple"] },
+            "Lemon Rice": { ingredients: ["rice", "lemon juice", "peanuts", "turmeric", "mustard seeds", "curry leaves"], type: "veg", keywords: ["south indian", "rice"] },
+            "Tamarind Rice": { ingredients: ["rice", "tamarind", "peanuts", "sesame seeds", "red chilli", "turmeric"], type: "veg", keywords: ["south indian", "rice"] },
+            "Coconut Rice": { ingredients: ["rice", "coconut", "cashews", "curry leaves", "mustard seeds", "green chilli"], type: "veg", keywords: ["south indian", "rice"] },
+            "Curd Rice": { ingredients: ["rice", "curd", "milk", "mustard seeds", "green chilli", "ginger", "curry leaves"], type: "veg", keywords: ["south indian", "rice"] },
+            "Tomato Rice": { ingredients: ["rice", "tomato", "onion", "green chilli", "turmeric", "curry leaves"], type: "veg", keywords: ["south indian", "rice"] },
+            "Sambar Rice": { ingredients: ["rice", "toor dal", "mixed vegetables", "tamarind", "sambar powder"], type: "veg", keywords: ["south indian", "rice"] },
+            "Bisi Bele Bath": { ingredients: ["rice", "toor dal", "mixed vegetables", "tamarind", "bisi bele bath powder", "ghee"], type: "veg", keywords: ["karnataka", "rice"] },
+            "Khichdi": { ingredients: ["rice", "moong dal", "turmeric", "cumin", "ghee", "salt"], type: "veg", keywords: ["comfort food", "rice", "dal"] },
+            "Fried Rice": { ingredients: ["rice", "vegetables", "soy sauce", "vinegar", "spring onion", "oil"], type: "veg", keywords: ["indo chinese", "rice"] },
+
+            // === VEG CURRIES ===
+            "Sambar": { ingredients: ["toor dal", "mixed vegetables", "tamarind", "sambar powder", "mustard seeds", "curry leaves"], type: "veg", keywords: ["south indian", "curry", "dal"] },
+            "Rasam": { ingredients: ["tomato", "tamarind", "rasam powder", "black pepper", "cumin", "garlic", "curry leaves"], type: "veg", keywords: ["south indian", "soup"] },
+            "Dal Tadka": { ingredients: ["toor dal", "onion", "tomato", "garlic", "cumin", "red chilli", "ghee"], type: "veg", keywords: ["north indian", "dal", "curry"] },
+            "Dal Makhani": { ingredients: ["urad dal", "rajma", "tomato", "cream", "butter", "ginger", "garlic", "garam masala"], type: "veg", keywords: ["punjabi", "dal", "curry", "rich"] },
+            "Dal Fry": { ingredients: ["toor dal", "onion", "tomato", "garlic", "cumin", "turmeric", "ghee"], type: "veg", keywords: ["dal", "curry"] },
+            "Chana Masala": { ingredients: ["chickpeas", "onion", "tomato", "ginger", "garlic", "chana masala", "coriander"], type: "veg", keywords: ["punjabi", "curry", "chickpeas"] },
+            "Chole": { ingredients: ["chickpeas", "onion", "tomato", "ginger", "garlic", "chole masala", "tea bags"], type: "veg", keywords: ["punjabi", "curry", "chickpeas"] },
+            "Rajma": { ingredients: ["rajma", "onion", "tomato", "ginger", "garlic", "rajma masala", "cream"], type: "veg", keywords: ["punjabi", "curry", "kidney beans"] },
+            "Kadhi Pakora": { ingredients: ["gram flour", "curd", "onion", "turmeric", "red chilli", "cumin"], type: "veg", keywords: ["punjabi", "curry"] },
+            "Palak Paneer": { ingredients: ["paneer", "spinach", "onion", "tomato", "ginger", "garlic", "cream", "garam masala"], type: "veg", keywords: ["punjabi", "paneer", "curry", "healthy"] },
+            "Paneer Butter Masala": { ingredients: ["paneer", "tomato", "onion", "cashew", "cream", "butter", "garam masala", "kasuri methi"], type: "veg", keywords: ["punjabi", "paneer", "curry", "rich"] },
+            "Kadai Paneer": { ingredients: ["paneer", "capsicum", "onion", "tomato", "kadai masala", "coriander", "cream"], type: "veg", keywords: ["punjabi", "paneer", "curry"] },
+            "Shahi Paneer": { ingredients: ["paneer", "onion", "tomato", "cashew", "cream", "garam masala", "saffron"], type: "veg", keywords: ["mughlai", "paneer", "curry", "rich"] },
+            "Matar Paneer": { ingredients: ["paneer", "peas", "onion", "tomato", "ginger", "garlic", "garam masala", "cream"], type: "veg", keywords: ["punjabi", "paneer", "curry"] },
+            "Paneer Tikka Masala": { ingredients: ["paneer", "curd", "capsicum", "onion", "tomato", "tikka masala", "cream"], type: "veg", keywords: ["punjabi", "paneer", "curry", "tikka"] },
+            "Malai Kofta": { ingredients: ["paneer", "potato", "onion", "tomato", "cashew", "cream", "garam masala"], type: "veg", keywords: ["mughlai", "paneer", "curry", "rich"] },
+            "Aloo Gobi": { ingredients: ["potato", "cauliflower", "onion", "tomato", "turmeric", "cumin", "garam masala"], type: "veg", keywords: ["punjabi", "curry", "dry"] },
+            "Dum Aloo": { ingredients: ["baby potato", "onion", "tomato", "curd", "garam masala", "cream"], type: "veg", keywords: ["kashmiri", "curry", "potato"] },
+            "Baingan Bharta": { ingredients: ["brinjal", "onion", "tomato", "green chilli", "garlic", "coriander"], type: "veg", keywords: ["punjabi", "curry", "smoky"] },
+            "Bhindi Masala": { ingredients: ["bhindi", "onion", "tomato", "turmeric", "red chilli", "amchur"], type: "veg", keywords: ["curry", "dry"] },
+            "Mix Veg Curry": { ingredients: ["mixed vegetables", "onion", "tomato", "ginger", "garlic", "garam masala", "cream"], type: "veg", keywords: ["curry", "mixed"] },
+            "Navratan Korma": { ingredients: ["mixed vegetables", "paneer", "cashew", "cream", "onion", "garam masala"], type: "veg", keywords: ["mughlai", "curry", "rich"] },
+
+            // === SOUTH INDIAN VEG ===
+            "Aviyal": { ingredients: ["mixed vegetables", "coconut", "curd", "coconut oil", "curry leaves", "cumin"], type: "veg", keywords: ["kerala", "curry"] },
+            "Kootu": { ingredients: ["vegetables", "chana dal", "coconut", "cumin", "curry leaves"], type: "veg", keywords: ["south indian", "curry"] },
+            "Thoran": { ingredients: ["vegetables", "coconut", "mustard seeds", "curry leaves", "green chilli"], type: "veg", keywords: ["kerala", "dry"] },
+            "Erissery": { ingredients: ["pumpkin", "black chickpeas", "coconut", "cumin", "turmeric", "curry leaves"], type: "veg", keywords: ["kerala", "curry"] },
+            "Kadala Curry": { ingredients: ["black chickpeas", "coconut", "onion", "tomato", "garam masala", "curry leaves"], type: "veg", keywords: ["kerala", "curry"] },
+            "Vegetable Stew": { ingredients: ["mixed vegetables", "coconut milk", "ginger", "green chilli", "whole spices"], type: "veg", keywords: ["kerala", "curry", "mild"] },
+
+            // === VEG SNACKS ===
+            "Samosa": { ingredients: ["maida", "potato", "peas", "onion", "cumin", "garam masala", "coriander"], type: "veg", keywords: ["snack", "fried", "street food"] },
+            "Onion Pakoda": { ingredients: ["gram flour", "onion", "green chilli", "cumin", "red chilli", "curry leaves"], type: "veg", keywords: ["snack", "fried", "pakoda"] },
+            "Paneer Pakoda": { ingredients: ["paneer", "gram flour", "green chilli", "ginger", "chaat masala"], type: "veg", keywords: ["snack", "fried", "pakoda", "paneer"] },
+            "Aloo Tikki": { ingredients: ["potato", "bread crumbs", "green chilli", "coriander", "cumin", "chaat masala"], type: "veg", keywords: ["snack", "street food", "chaat"] },
+            "Pav Bhaji": { ingredients: ["mixed vegetables", "pav", "butter", "onion", "tomato", "pav bhaji masala"], type: "veg", keywords: ["mumbai", "street food"] },
+            "Vada Pav": { ingredients: ["potato", "pav", "gram flour", "garlic chutney", "green chilli", "mustard seeds"], type: "veg", keywords: ["mumbai", "street food"] },
+            "Bhel Puri": { ingredients: ["puffed rice", "sev", "onion", "tomato", "tamarind chutney", "green chutney", "chaat masala"], type: "veg", keywords: ["chaat", "street food"] },
+            "Pani Puri": { ingredients: ["puri", "potato", "chickpeas", "tamarind water", "mint water", "chaat masala"], type: "veg", keywords: ["chaat", "street food"] },
+            "Dahi Vada": { ingredients: ["urad dal", "curd", "tamarind chutney", "green chutney", "cumin", "red chilli"], type: "veg", keywords: ["chaat", "snack"] },
+            "Gobi Manchurian": { ingredients: ["cauliflower", "maida", "corn flour", "ginger", "garlic", "soy sauce", "chilli sauce"], type: "veg", keywords: ["indo chinese", "snack"] },
+            "Paneer 65": { ingredients: ["paneer", "curd", "ginger", "garlic", "red chilli", "curry leaves", "corn flour"], type: "veg", keywords: ["snack", "starter", "paneer"] },
+
+            // === VEG BREADS ===
+            "Roti": { ingredients: ["wheat flour", "salt", "water"], type: "veg", keywords: ["bread", "basic"] },
+            "Naan": { ingredients: ["maida", "curd", "milk", "yeast", "sugar", "salt", "butter"], type: "veg", keywords: ["bread", "tandoor"] },
+            "Butter Naan": { ingredients: ["maida", "curd", "milk", "yeast", "butter"], type: "veg", keywords: ["bread", "tandoor", "naan"] },
+            "Garlic Naan": { ingredients: ["maida", "curd", "garlic", "butter", "coriander"], type: "veg", keywords: ["bread", "tandoor", "naan", "garlic"] },
+            "Kulcha": { ingredients: ["maida", "curd", "baking powder", "salt", "butter"], type: "veg", keywords: ["bread", "punjabi"] },
+            "Kerala Parotta": { ingredients: ["maida", "egg", "sugar", "salt", "oil"], type: "veg", keywords: ["kerala", "bread", "parotta"] },
+            "Laccha Paratha": { ingredients: ["maida", "ghee", "salt", "water"], type: "veg", keywords: ["bread", "layered", "paratha"] },
+
+            // === VEG CHUTNEYS ===
+            "Coconut Chutney": { ingredients: ["coconut", "roasted gram", "green chilli", "ginger", "curry leaves", "mustard seeds"], type: "veg", keywords: ["south indian", "chutney", "side"] },
+            "Tomato Chutney": { ingredients: ["tomato", "onion", "red chilli", "garlic", "mustard seeds", "curry leaves"], type: "veg", keywords: ["south indian", "chutney", "side"] },
+            "Mint Chutney": { ingredients: ["mint", "coriander", "green chilli", "onion", "lemon juice", "cumin"], type: "veg", keywords: ["chutney", "side", "green"] },
+            "Peanut Chutney": { ingredients: ["peanuts", "garlic", "red chilli", "tamarind", "cumin"], type: "veg", keywords: ["chutney", "side"] },
+
+            // === VEG SWEETS ===
+            "Gulab Jamun": { ingredients: ["milk powder", "maida", "ghee", "cardamom", "sugar", "rose water"], type: "veg", keywords: ["sweet", "dessert", "indian"] },
+            "Rasgulla": { ingredients: ["milk", "lemon juice", "sugar", "cardamom", "rose water"], type: "veg", keywords: ["sweet", "dessert", "bengali"] },
+            "Rasmalai": { ingredients: ["milk", "lemon juice", "sugar", "cardamom", "saffron", "pistachios"], type: "veg", keywords: ["sweet", "dessert", "bengali"] },
+            "Jalebi": { ingredients: ["maida", "curd", "sugar", "saffron", "cardamom", "oil"], type: "veg", keywords: ["sweet", "dessert", "crispy"] },
+            "Kheer": { ingredients: ["rice", "milk", "sugar", "cardamom", "saffron", "cashews", "raisins"], type: "veg", keywords: ["sweet", "dessert", "rice"] },
+            "Payasam": { ingredients: ["rice", "milk", "jaggery", "cardamom", "ghee", "cashews"], type: "veg", keywords: ["sweet", "dessert", "south indian"] },
+            "Semiya Payasam": { ingredients: ["vermicelli", "milk", "sugar", "cardamom", "ghee", "cashews"], type: "veg", keywords: ["sweet", "dessert", "south indian"] },
+            "Rava Kesari": { ingredients: ["rava", "sugar", "ghee", "cardamom", "saffron", "cashews"], type: "veg", keywords: ["sweet", "dessert", "south indian"] },
+            "Carrot Halwa": { ingredients: ["carrot", "milk", "sugar", "ghee", "cardamom", "cashews"], type: "veg", keywords: ["sweet", "dessert", "halwa"] },
+            "Moong Dal Halwa": { ingredients: ["moong dal", "ghee", "sugar", "cardamom", "saffron", "cashews"], type: "veg", keywords: ["sweet", "dessert", "halwa"] },
+            "Besan Laddu": { ingredients: ["gram flour", "ghee", "sugar", "cardamom", "cashews"], type: "veg", keywords: ["sweet", "dessert", "laddu"] },
+            "Mysore Pak": { ingredients: ["gram flour", "ghee", "sugar", "cardamom"], type: "veg", keywords: ["sweet", "dessert", "karnataka"] },
+            "Kaju Katli": { ingredients: ["cashews", "sugar", "ghee", "cardamom"], type: "veg", keywords: ["sweet", "dessert", "diwali"] },
+
+            // === CHICKEN DISHES ===
+            "Butter Chicken": { ingredients: ["chicken", "tomato", "cream", "butter", "onion", "ginger", "garlic", "garam masala", "kasuri methi"], type: "non-veg", keywords: ["chicken", "curry", "punjabi", "rich", "creamy"] },
+            "Chicken Tikka Masala": { ingredients: ["chicken", "curd", "tomato", "cream", "onion", "ginger", "garlic", "tikka masala"], type: "non-veg", keywords: ["chicken", "curry", "tikka", "creamy"] },
+            "Chicken Curry": { ingredients: ["chicken", "onion", "tomato", "ginger", "garlic", "turmeric", "red chilli", "garam masala"], type: "non-veg", keywords: ["chicken", "curry", "basic"] },
+            "Chicken Korma": { ingredients: ["chicken", "onion", "curd", "cashew", "cream", "ginger", "garlic", "garam masala"], type: "non-veg", keywords: ["chicken", "curry", "mughlai", "rich"] },
+            "Kadai Chicken": { ingredients: ["chicken", "capsicum", "onion", "tomato", "kadai masala", "coriander", "cream"], type: "non-veg", keywords: ["chicken", "curry", "spicy"] },
+            "Chicken Chettinad": { ingredients: ["chicken", "onion", "tomato", "coconut", "chettinad masala", "curry leaves", "fennel"], type: "non-veg", keywords: ["chicken", "curry", "south indian", "spicy"] },
+            "Chicken 65": { ingredients: ["chicken", "curd", "ginger", "garlic", "red chilli", "curry leaves", "corn flour"], type: "non-veg", keywords: ["chicken", "starter", "fried", "spicy"] },
+            "Chicken Fry": { ingredients: ["chicken", "onion", "ginger", "garlic", "turmeric", "red chilli", "garam masala", "curry leaves"], type: "non-veg", keywords: ["chicken", "fry", "dry"] },
+            "Chicken Biryani": { ingredients: ["chicken", "rice", "onion", "curd", "ginger", "garlic", "biryani masala", "mint", "saffron", "ghee"], type: "non-veg", keywords: ["chicken", "biryani", "rice", "main course"] },
+            "Hyderabadi Chicken Biryani": { ingredients: ["chicken", "rice", "onion", "curd", "biryani masala", "mint", "saffron", "ghee", "fried onions"], type: "non-veg", keywords: ["chicken", "biryani", "hyderabadi", "dum"] },
+            "Chicken Fried Rice": { ingredients: ["chicken", "rice", "egg", "onion", "carrot", "capsicum", "soy sauce", "vinegar"], type: "non-veg", keywords: ["chicken", "rice", "indo chinese"] },
+            "Chicken Manchurian": { ingredients: ["chicken", "corn flour", "maida", "ginger", "garlic", "soy sauce", "chilli sauce", "spring onion"], type: "non-veg", keywords: ["chicken", "indo chinese", "starter"] },
+            "Chilli Chicken": { ingredients: ["chicken", "capsicum", "onion", "ginger", "garlic", "soy sauce", "chilli sauce", "vinegar", "corn flour"], type: "non-veg", keywords: ["chicken", "indo chinese", "spicy"] },
+            "Tandoori Chicken": { ingredients: ["chicken", "curd", "ginger", "garlic", "tandoori masala", "lemon juice", "red chilli"], type: "non-veg", keywords: ["chicken", "tandoor", "grilled", "starter"] },
+            "Chicken Tikka": { ingredients: ["chicken", "curd", "ginger", "garlic", "tikka masala", "lemon juice"], type: "non-veg", keywords: ["chicken", "tikka", "grilled", "starter"] },
+            "Chicken Seekh Kabab": { ingredients: ["chicken mince", "onion", "ginger", "garlic", "green chilli", "coriander", "garam masala"], type: "non-veg", keywords: ["chicken", "kabab", "grilled"] },
+            "Chicken Shawarma": { ingredients: ["chicken", "pita bread", "onion", "tomato", "cabbage", "garlic sauce", "shawarma spice"], type: "non-veg", keywords: ["chicken", "middle eastern", "wrap"] },
+            "Kerala Chicken Curry": { ingredients: ["chicken", "coconut milk", "onion", "tomato", "ginger", "garlic", "garam masala", "curry leaves"], type: "non-veg", keywords: ["chicken", "curry", "kerala", "coconut"] },
+            "Chicken Stew": { ingredients: ["chicken", "coconut milk", "potato", "carrot", "onion", "ginger", "green chilli", "whole spices"], type: "non-veg", keywords: ["chicken", "stew", "kerala", "mild"] },
+            "Chicken Do Pyaza": { ingredients: ["chicken", "onion", "tomato", "ginger", "garlic", "garam masala", "coriander"], type: "non-veg", keywords: ["chicken", "curry", "onion"] },
+            "Chicken Lollipop": { ingredients: ["chicken wings", "ginger", "garlic", "soy sauce", "chilli sauce", "corn flour"], type: "non-veg", keywords: ["chicken", "starter", "fried"] },
+            "Chicken Roast": { ingredients: ["chicken", "onion", "tomato", "ginger", "garlic", "garam masala", "curry leaves"], type: "non-veg", keywords: ["chicken", "roast", "kerala"] },
+            "Malai Chicken Tikka": { ingredients: ["chicken", "cream", "cheese", "ginger", "garlic", "cardamom", "white pepper"], type: "non-veg", keywords: ["chicken", "tikka", "creamy", "mild"] },
+            "Afghani Chicken": { ingredients: ["chicken", "cream", "cheese", "ginger", "garlic", "cashew", "white pepper"], type: "non-veg", keywords: ["chicken", "creamy", "mild"] },
+            "Chicken Pulao": { ingredients: ["chicken", "rice", "onion", "ginger", "garlic", "whole spices", "ghee"], type: "non-veg", keywords: ["chicken", "pulao", "rice"] },
+
+            // === MUTTON DISHES ===
+            "Mutton Curry": { ingredients: ["mutton", "onion", "tomato", "ginger", "garlic", "turmeric", "red chilli", "garam masala"], type: "non-veg", keywords: ["mutton", "curry", "basic"] },
+            "Mutton Korma": { ingredients: ["mutton", "onion", "curd", "cashew", "cream", "ginger", "garlic", "garam masala"], type: "non-veg", keywords: ["mutton", "curry", "mughlai", "rich"] },
+            "Mutton Rogan Josh": { ingredients: ["mutton", "onion", "curd", "ginger", "garlic", "kashmiri chilli", "fennel", "garam masala"], type: "non-veg", keywords: ["mutton", "curry", "kashmiri", "aromatic"] },
+            "Mutton Biryani": { ingredients: ["mutton", "rice", "onion", "curd", "ginger", "garlic", "biryani masala", "mint", "saffron", "ghee"], type: "non-veg", keywords: ["mutton", "biryani", "rice", "main course"] },
+            "Hyderabadi Mutton Biryani": { ingredients: ["mutton", "rice", "onion", "curd", "biryani masala", "mint", "saffron", "ghee", "fried onions"], type: "non-veg", keywords: ["mutton", "biryani", "hyderabadi", "dum"] },
+            "Mutton Keema": { ingredients: ["mutton mince", "onion", "tomato", "peas", "ginger", "garlic", "garam masala", "coriander"], type: "non-veg", keywords: ["mutton", "keema", "mince"] },
+            "Keema Matar": { ingredients: ["mutton mince", "peas", "onion", "tomato", "ginger", "garlic", "garam masala"], type: "non-veg", keywords: ["mutton", "keema", "mince", "peas"] },
+            "Mutton Seekh Kabab": { ingredients: ["mutton mince", "onion", "ginger", "garlic", "green chilli", "coriander", "garam masala"], type: "non-veg", keywords: ["mutton", "kabab", "grilled"] },
+            "Mutton Shami Kabab": { ingredients: ["mutton mince", "chana dal", "onion", "ginger", "garlic", "garam masala", "egg"], type: "non-veg", keywords: ["mutton", "kabab", "fried"] },
+            "Mutton Fry": { ingredients: ["mutton", "onion", "ginger", "garlic", "turmeric", "red chilli", "garam masala", "curry leaves"], type: "non-veg", keywords: ["mutton", "fry", "dry"] },
+            "Mutton Pepper Fry": { ingredients: ["mutton", "onion", "black pepper", "ginger", "garlic", "curry leaves", "fennel"], type: "non-veg", keywords: ["mutton", "fry", "pepper", "spicy"] },
+            "Mutton Chettinad": { ingredients: ["mutton", "onion", "tomato", "coconut", "chettinad masala", "curry leaves", "fennel"], type: "non-veg", keywords: ["mutton", "curry", "south indian", "spicy"] },
+            "Kerala Mutton Curry": { ingredients: ["mutton", "coconut milk", "onion", "tomato", "ginger", "garlic", "garam masala", "curry leaves"], type: "non-veg", keywords: ["mutton", "curry", "kerala", "coconut"] },
+            "Nihari": { ingredients: ["mutton", "onion", "ginger", "garlic", "nihari masala", "wheat flour", "ghee", "coriander"], type: "non-veg", keywords: ["mutton", "curry", "lucknowi", "slow cooked"] },
+            "Haleem": { ingredients: ["mutton", "wheat", "chana dal", "moong dal", "onion", "ginger", "garlic", "garam masala", "ghee"], type: "non-veg", keywords: ["mutton", "hyderabadi", "ramadan"] },
+            "Paya": { ingredients: ["mutton trotters", "onion", "ginger", "garlic", "whole spices", "coriander"], type: "non-veg", keywords: ["mutton", "soup", "traditional"] },
+            "Mutton Do Pyaza": { ingredients: ["mutton", "onion", "tomato", "ginger", "garlic", "garam masala"], type: "non-veg", keywords: ["mutton", "curry", "onion"] },
+            "Bhuna Mutton": { ingredients: ["mutton", "onion", "tomato", "ginger", "garlic", "garam masala", "coriander"], type: "non-veg", keywords: ["mutton", "dry", "bhuna"] },
+            "Mutton Pulao": { ingredients: ["mutton", "rice", "onion", "ginger", "garlic", "whole spices", "ghee"], type: "non-veg", keywords: ["mutton", "pulao", "rice"] },
+
+            // === FISH DISHES ===
+            "Fish Curry": { ingredients: ["fish", "onion", "tomato", "ginger", "garlic", "turmeric", "red chilli", "curry leaves"], type: "non-veg", keywords: ["fish", "curry", "seafood"] },
+            "Fish Fry": { ingredients: ["fish", "turmeric", "red chilli", "ginger", "garlic", "lemon juice"], type: "non-veg", keywords: ["fish", "fry", "seafood", "crispy"] },
+            "Fish Masala": { ingredients: ["fish", "onion", "tomato", "ginger", "garlic", "garam masala", "coriander"], type: "non-veg", keywords: ["fish", "curry", "seafood"] },
+            "Tandoori Fish": { ingredients: ["fish", "curd", "ginger", "garlic", "tandoori masala", "lemon juice"], type: "non-veg", keywords: ["fish", "tandoor", "grilled", "seafood"] },
+            "Fish Biryani": { ingredients: ["fish", "rice", "onion", "curd", "ginger", "garlic", "biryani masala", "mint", "ghee"], type: "non-veg", keywords: ["fish", "biryani", "rice", "seafood"] },
+            "Fish Fried Rice": { ingredients: ["fish", "rice", "egg", "onion", "carrot", "capsicum", "soy sauce"], type: "non-veg", keywords: ["fish", "rice", "indo chinese", "seafood"] },
+            "Chilli Fish": { ingredients: ["fish", "capsicum", "onion", "ginger", "garlic", "soy sauce", "chilli sauce", "corn flour"], type: "non-veg", keywords: ["fish", "indo chinese", "spicy", "seafood"] },
+            "Fish 65": { ingredients: ["fish", "curd", "ginger", "garlic", "red chilli", "curry leaves", "corn flour"], type: "non-veg", keywords: ["fish", "starter", "fried", "seafood"] },
+            "Kerala Fish Curry": { ingredients: ["fish", "coconut milk", "onion", "tomato", "ginger", "garlic", "turmeric", "curry leaves"], type: "non-veg", keywords: ["fish", "curry", "kerala", "coconut", "seafood"] },
+            "Meen Molee": { ingredients: ["fish", "coconut milk", "onion", "tomato", "ginger", "green chilli", "turmeric"], type: "non-veg", keywords: ["fish", "curry", "kerala", "mild", "seafood"] },
+            "Meen Pollichathu": { ingredients: ["fish", "coconut", "onion", "tomato", "ginger", "garlic", "red chilli", "banana leaf"], type: "non-veg", keywords: ["fish", "kerala", "wrapped", "seafood"] },
+            "Goan Fish Curry": { ingredients: ["fish", "coconut", "onion", "tomato", "tamarind", "red chilli", "turmeric"], type: "non-veg", keywords: ["fish", "curry", "goan", "tangy", "seafood"] },
+            "Bengali Fish Curry": { ingredients: ["fish", "onion", "tomato", "ginger", "garlic", "turmeric", "mustard oil"], type: "non-veg", keywords: ["fish", "curry", "bengali", "seafood"] },
+            "Machher Jhol": { ingredients: ["fish", "potato", "tomato", "ginger", "turmeric", "cumin", "mustard oil"], type: "non-veg", keywords: ["fish", "curry", "bengali", "light", "seafood"] },
+            "Amritsari Fish": { ingredients: ["fish", "gram flour", "ginger", "garlic", "ajwain", "red chilli", "lemon juice"], type: "non-veg", keywords: ["fish", "fried", "punjabi", "seafood"] },
+            "Fish Tikka": { ingredients: ["fish", "curd", "ginger", "garlic", "tikka masala", "lemon juice"], type: "non-veg", keywords: ["fish", "tikka", "grilled", "seafood"] },
+
+            // === PRAWN DISHES ===
+            "Prawn Curry": { ingredients: ["prawns", "onion", "tomato", "ginger", "garlic", "turmeric", "red chilli", "curry leaves"], type: "non-veg", keywords: ["prawn", "curry", "seafood"] },
+            "Prawn Masala": { ingredients: ["prawns", "onion", "tomato", "ginger", "garlic", "garam masala", "coriander"], type: "non-veg", keywords: ["prawn", "curry", "seafood"] },
+            "Prawn Fry": { ingredients: ["prawns", "turmeric", "red chilli", "ginger", "garlic", "curry leaves"], type: "non-veg", keywords: ["prawn", "fry", "seafood"] },
+            "Prawn Biryani": { ingredients: ["prawns", "rice", "onion", "curd", "ginger", "garlic", "biryani masala", "mint", "ghee"], type: "non-veg", keywords: ["prawn", "biryani", "rice", "seafood"] },
+            "Chilli Prawns": { ingredients: ["prawns", "capsicum", "onion", "ginger", "garlic", "soy sauce", "chilli sauce", "corn flour"], type: "non-veg", keywords: ["prawn", "indo chinese", "spicy", "seafood"] },
+            "Prawn 65": { ingredients: ["prawns", "curd", "ginger", "garlic", "red chilli", "curry leaves", "corn flour"], type: "non-veg", keywords: ["prawn", "starter", "fried", "seafood"] },
+            "Kerala Prawn Curry": { ingredients: ["prawns", "coconut milk", "onion", "tomato", "ginger", "garlic", "turmeric", "curry leaves"], type: "non-veg", keywords: ["prawn", "curry", "kerala", "coconut", "seafood"] },
+            "Prawn Molee": { ingredients: ["prawns", "coconut milk", "onion", "tomato", "ginger", "green chilli", "turmeric"], type: "non-veg", keywords: ["prawn", "curry", "kerala", "mild", "seafood"] },
+            "Goan Prawn Curry": { ingredients: ["prawns", "coconut", "onion", "tomato", "tamarind", "red chilli", "turmeric"], type: "non-veg", keywords: ["prawn", "curry", "goan", "tangy", "seafood"] },
+            "Butter Garlic Prawns": { ingredients: ["prawns", "butter", "garlic", "lemon juice", "parsley", "black pepper"], type: "non-veg", keywords: ["prawn", "butter", "garlic", "seafood"] },
+            "Prawn Fried Rice": { ingredients: ["prawns", "rice", "egg", "onion", "carrot", "soy sauce"], type: "non-veg", keywords: ["prawn", "rice", "indo chinese", "seafood"] },
+            "Tandoori Prawns": { ingredients: ["prawns", "curd", "ginger", "garlic", "tandoori masala", "lemon juice"], type: "non-veg", keywords: ["prawn", "tandoor", "grilled", "seafood"] },
+            "Prawn Pulao": { ingredients: ["prawns", "rice", "onion", "ginger", "garlic", "whole spices", "ghee"], type: "non-veg", keywords: ["prawn", "pulao", "rice", "seafood"] },
+
+            // === EGG DISHES ===
+            "Egg Curry": { ingredients: ["eggs", "onion", "tomato", "ginger", "garlic", "turmeric", "red chilli", "garam masala"], type: "non-veg", keywords: ["egg", "curry"] },
+            "Egg Masala": { ingredients: ["eggs", "onion", "tomato", "ginger", "garlic", "garam masala", "coriander"], type: "non-veg", keywords: ["egg", "curry"] },
+            "Egg Bhurji": { ingredients: ["eggs", "onion", "tomato", "green chilli", "turmeric", "coriander"], type: "non-veg", keywords: ["egg", "scrambled", "breakfast"] },
+            "Egg Roast": { ingredients: ["eggs", "onion", "tomato", "ginger", "garlic", "red chilli", "garam masala", "curry leaves"], type: "non-veg", keywords: ["egg", "roast", "kerala"] },
+            "Kerala Egg Roast": { ingredients: ["eggs", "onion", "tomato", "ginger", "garlic", "red chilli", "curry leaves", "coconut oil"], type: "non-veg", keywords: ["egg", "roast", "kerala", "spicy"] },
+            "Egg Biryani": { ingredients: ["eggs", "rice", "onion", "curd", "ginger", "garlic", "biryani masala", "mint", "ghee"], type: "non-veg", keywords: ["egg", "biryani", "rice"] },
+            "Egg Fried Rice": { ingredients: ["eggs", "rice", "onion", "carrot", "capsicum", "soy sauce"], type: "non-veg", keywords: ["egg", "rice", "indo chinese"] },
+            "Masala Omelette": { ingredients: ["eggs", "onion", "tomato", "green chilli", "coriander", "turmeric"], type: "non-veg", keywords: ["egg", "omelette", "breakfast"] },
+            "Egg Paratha": { ingredients: ["wheat flour", "eggs", "onion", "green chilli", "coriander"], type: "non-veg", keywords: ["egg", "paratha", "breakfast"] },
+            "Egg Dosa": { ingredients: ["dosa batter", "eggs", "onion", "green chilli"], type: "non-veg", keywords: ["egg", "dosa", "breakfast"] },
+
+            // === CRAB & SEAFOOD ===
+            "Crab Curry": { ingredients: ["crab", "onion", "tomato", "ginger", "garlic", "turmeric", "red chilli", "curry leaves"], type: "non-veg", keywords: ["crab", "curry", "seafood"] },
+            "Crab Masala": { ingredients: ["crab", "onion", "tomato", "ginger", "garlic", "garam masala", "coriander"], type: "non-veg", keywords: ["crab", "curry", "seafood"] },
+            "Crab Roast": { ingredients: ["crab", "onion", "tomato", "ginger", "garlic", "red chilli", "garam masala", "curry leaves"], type: "non-veg", keywords: ["crab", "roast", "kerala", "seafood"] },
+            "Kerala Crab Curry": { ingredients: ["crab", "coconut milk", "onion", "tomato", "ginger", "garlic", "turmeric", "curry leaves"], type: "non-veg", keywords: ["crab", "curry", "kerala", "coconut", "seafood"] },
+            "Squid Fry": { ingredients: ["squid", "turmeric", "red chilli", "ginger", "garlic", "curry leaves"], type: "non-veg", keywords: ["squid", "fry", "seafood"] },
+            "Squid Masala": { ingredients: ["squid", "onion", "tomato", "ginger", "garlic", "garam masala", "coriander"], type: "non-veg", keywords: ["squid", "curry", "seafood"] },
+            "Chilli Squid": { ingredients: ["squid", "capsicum", "onion", "ginger", "garlic", "soy sauce", "chilli sauce"], type: "non-veg", keywords: ["squid", "indo chinese", "seafood"] },
+
+            // === DUCK & PORK ===
+            "Duck Curry": { ingredients: ["duck", "onion", "tomato", "ginger", "garlic", "turmeric", "red chilli", "garam masala"], type: "non-veg", keywords: ["duck", "curry"] },
+            "Duck Roast": { ingredients: ["duck", "onion", "tomato", "ginger", "garlic", "red chilli", "garam masala", "curry leaves"], type: "non-veg", keywords: ["duck", "roast", "kerala"] },
+            "Kerala Duck Curry": { ingredients: ["duck", "coconut milk", "onion", "tomato", "ginger", "garlic", "garam masala", "curry leaves"], type: "non-veg", keywords: ["duck", "curry", "kerala", "coconut"] },
+            "Pork Curry": { ingredients: ["pork", "onion", "tomato", "ginger", "garlic", "turmeric", "red chilli", "garam masala"], type: "non-veg", keywords: ["pork", "curry"] },
+            "Pork Vindaloo": { ingredients: ["pork", "onion", "vinegar", "ginger", "garlic", "kashmiri chilli", "garam masala"], type: "non-veg", keywords: ["pork", "curry", "goan", "tangy", "spicy"] },
+            "Pork Fry": { ingredients: ["pork", "onion", "ginger", "garlic", "turmeric", "red chilli", "garam masala", "curry leaves"], type: "non-veg", keywords: ["pork", "fry", "dry"] },
+            "Coorg Pork Curry": { ingredients: ["pork", "onion", "tomato", "ginger", "garlic", "coorg masala", "vinegar"], type: "non-veg", keywords: ["pork", "curry", "coorg", "karnataka"] },
+
+            // === NON-VEG SNACKS ===
+            "Chicken Samosa": { ingredients: ["maida", "chicken mince", "onion", "green chilli", "garam masala", "coriander"], type: "non-veg", keywords: ["chicken", "samosa", "snack", "fried"] },
+            "Mutton Samosa": { ingredients: ["maida", "mutton mince", "onion", "green chilli", "garam masala", "coriander"], type: "non-veg", keywords: ["mutton", "samosa", "snack", "fried"] },
+            "Chicken Momos": { ingredients: ["maida", "chicken mince", "onion", "ginger", "garlic", "soy sauce"], type: "non-veg", keywords: ["chicken", "momos", "snack", "steamed"] },
+            "Chicken Roll": { ingredients: ["paratha", "chicken tikka", "onion", "capsicum", "chutney"], type: "non-veg", keywords: ["chicken", "roll", "wrap", "street food"] },
+            "Egg Roll": { ingredients: ["paratha", "eggs", "onion", "green chilli", "chutney"], type: "non-veg", keywords: ["egg", "roll", "wrap", "street food"] },
+            "Fish Cutlet": { ingredients: ["fish", "potato", "onion", "ginger", "garlic", "bread crumbs"], type: "non-veg", keywords: ["fish", "cutlet", "snack", "fried", "seafood"] },
+            "Prawn Cutlet": { ingredients: ["prawns", "potato", "onion", "ginger", "garlic", "bread crumbs"], type: "non-veg", keywords: ["prawn", "cutlet", "snack", "fried", "seafood"] }
+        };
+
+
+        // Categories for browsing
+        const categories = {
+            "Breakfast": { dishes: ["Idli", "Dosa", "Masala Dosa", "Rava Dosa", "Uttapam", "Medu Vada", "Pongal", "Upma", "Poha", "Aloo Paratha", "Gobi Paratha", "Paneer Paratha", "Methi Paratha", "Poori", "Chole Bhature", "Appam", "Puttu", "Idiyappam", "Dhokla", "Sabudana Khichdi"], type: "veg" },
+            "Rice Dishes": { dishes: ["Veg Biryani", "Veg Pulao", "Jeera Rice", "Lemon Rice", "Tamarind Rice", "Coconut Rice", "Curd Rice", "Tomato Rice", "Sambar Rice", "Bisi Bele Bath", "Khichdi", "Fried Rice"], type: "veg" },
+            "Paneer Dishes": { dishes: ["Palak Paneer", "Paneer Butter Masala", "Kadai Paneer", "Shahi Paneer", "Matar Paneer", "Paneer Tikka Masala", "Malai Kofta", "Paneer Pakoda", "Paneer 65"], type: "veg" },
+            "Dal & Curries": { dishes: ["Sambar", "Rasam", "Dal Tadka", "Dal Makhani", "Dal Fry", "Chana Masala", "Chole", "Rajma", "Kadhi Pakora", "Aloo Gobi", "Dum Aloo", "Baingan Bharta", "Bhindi Masala", "Mix Veg Curry", "Navratan Korma"], type: "veg" },
+            "South Indian": { dishes: ["Idli", "Dosa", "Masala Dosa", "Sambar", "Rasam", "Aviyal", "Kootu", "Thoran", "Erissery", "Kadala Curry", "Vegetable Stew", "Coconut Chutney", "Tomato Chutney"], type: "veg" },
+            "Snacks & Chaat": { dishes: ["Samosa", "Onion Pakoda", "Aloo Tikki", "Pav Bhaji", "Vada Pav", "Bhel Puri", "Pani Puri", "Dahi Vada", "Gobi Manchurian"], type: "veg" },
+            "Breads": { dishes: ["Roti", "Naan", "Butter Naan", "Garlic Naan", "Kulcha", "Kerala Parotta", "Laccha Paratha"], type: "veg" },
+            "Sweets": { dishes: ["Gulab Jamun", "Rasgulla", "Rasmalai", "Jalebi", "Kheer", "Payasam", "Semiya Payasam", "Rava Kesari", "Carrot Halwa", "Moong Dal Halwa", "Besan Laddu", "Mysore Pak", "Kaju Katli"], type: "veg" },
+            "Chicken": { dishes: ["Butter Chicken", "Chicken Tikka Masala", "Chicken Curry", "Chicken Korma", "Kadai Chicken", "Chicken Chettinad", "Chicken 65", "Chicken Fry", "Chicken Biryani", "Hyderabadi Chicken Biryani", "Chicken Fried Rice", "Chicken Manchurian", "Chilli Chicken", "Tandoori Chicken", "Chicken Tikka", "Chicken Seekh Kabab", "Chicken Shawarma", "Kerala Chicken Curry", "Chicken Stew", "Chicken Do Pyaza", "Chicken Lollipop", "Chicken Roast", "Malai Chicken Tikka", "Afghani Chicken", "Chicken Pulao"], type: "non-veg" },
+            "Mutton": { dishes: ["Mutton Curry", "Mutton Korma", "Mutton Rogan Josh", "Mutton Biryani", "Hyderabadi Mutton Biryani", "Mutton Keema", "Keema Matar", "Mutton Seekh Kabab", "Mutton Shami Kabab", "Mutton Fry", "Mutton Pepper Fry", "Mutton Chettinad", "Kerala Mutton Curry", "Nihari", "Haleem", "Paya", "Mutton Do Pyaza", "Bhuna Mutton", "Mutton Pulao"], type: "non-veg" },
+            "Fish": { dishes: ["Fish Curry", "Fish Fry", "Fish Masala", "Tandoori Fish", "Fish Biryani", "Fish Fried Rice", "Chilli Fish", "Fish 65", "Kerala Fish Curry", "Meen Molee", "Meen Pollichathu", "Goan Fish Curry", "Bengali Fish Curry", "Machher Jhol", "Amritsari Fish", "Fish Tikka"], type: "non-veg" },
+            "Prawns & Seafood": { dishes: ["Prawn Curry", "Prawn Masala", "Prawn Fry", "Prawn Biryani", "Chilli Prawns", "Prawn 65", "Kerala Prawn Curry", "Prawn Molee", "Goan Prawn Curry", "Butter Garlic Prawns", "Prawn Fried Rice", "Tandoori Prawns", "Prawn Pulao", "Crab Curry", "Crab Masala", "Crab Roast", "Kerala Crab Curry", "Squid Fry", "Squid Masala", "Chilli Squid"], type: "non-veg" },
+            "Eggs": { dishes: ["Egg Curry", "Egg Masala", "Egg Bhurji", "Egg Roast", "Kerala Egg Roast", "Egg Biryani", "Egg Fried Rice", "Masala Omelette", "Egg Paratha", "Egg Dosa"], type: "non-veg" },
+            "Biryani & Pulao": { dishes: ["Veg Biryani", "Chicken Biryani", "Hyderabadi Chicken Biryani", "Mutton Biryani", "Hyderabadi Mutton Biryani", "Fish Biryani", "Prawn Biryani", "Egg Biryani", "Veg Pulao", "Chicken Pulao", "Mutton Pulao", "Prawn Pulao"], type: "mixed" },
+            "Duck & Pork": { dishes: ["Duck Curry", "Duck Roast", "Kerala Duck Curry", "Pork Curry", "Pork Vindaloo", "Pork Fry", "Coorg Pork Curry"], type: "non-veg" }
+        };
+
+        // State
+        let previousView = 'search';
+        let searchKeyword = '';
+
+        // Generate instructions
+        function getInstructions(name) {
+            const n = name.toLowerCase();
+            if (n.includes('biryani')) {
+                return ["Marinate the main ingredient with curd, ginger-garlic paste, and spices for 1-2 hours", "Soak basmati rice for 30 minutes, then parboil with whole spices until 70% cooked", "Fry sliced onions until deep golden brown for garnish", "In a heavy-bottomed pot, layer the marinated ingredient at the bottom", "Add a layer of partially cooked rice on top", "Sprinkle saffron milk, fried onions, fresh mint, and ghee", "Seal the pot with dough or tight-fitting lid for dum cooking", "Cook on high heat for 3 minutes, then on lowest heat for 25-30 minutes", "Let it rest for 5 minutes before opening. Gently mix and serve hot with raita"];
+            } else if (n.includes('curry') || n.includes('masala') || n.includes('korma')) {
+                return ["Heat oil in a pan, add whole spices (bay leaf, cardamom, cinnamon) and let them splutter", "Add finely sliced onions and sauté until golden brown (8-10 minutes)", "Add ginger-garlic paste and cook until the raw smell disappears (2 minutes)", "Add chopped tomatoes and cook until they turn mushy and oil separates", "Add turmeric, red chilli powder, coriander powder, and salt. Mix well", "Add the main ingredient and coat well with the masala", "Add water as needed, cover and simmer until fully cooked", "Add garam masala and cream (if using) towards the end", "Garnish with fresh coriander and serve hot with rice or roti"];
+            } else if (n.includes('fry') || n.includes('roast') || n.includes('65')) {
+                return ["Clean and cut the main ingredient into desired pieces", "Marinate with turmeric, red chilli powder, salt, ginger-garlic paste, and lemon juice", "Let it rest for 20-30 minutes for flavors to absorb", "Heat oil in a pan or kadai for deep/shallow frying", "Add curry leaves and let them splutter", "Add the marinated pieces in batches, don't overcrowd", "Fry on medium heat until golden brown and crispy on all sides", "Drain excess oil on paper towels", "Serve hot with onion rings and lemon wedges"];
+            } else if (n.includes('pulao') || (n.includes('rice') && !n.includes('fried'))) {
+                return ["Wash and soak basmati rice for 20-30 minutes, then drain", "Heat ghee in a heavy-bottomed pan, add whole spices", "Add sliced onions and sauté until light golden", "Add vegetables or other ingredients and sauté for 2-3 minutes", "Add the soaked rice and gently sauté for 2 minutes", "Add water in 1:2 ratio (rice:water) and salt to taste", "Bring to boil, then reduce heat to lowest, cover tightly", "Cook for 15-18 minutes until rice is fluffy", "Let it rest for 5 minutes, fluff with fork and serve"];
+            } else if (n.includes('dosa')) {
+                return ["Soak rice and urad dal separately for 4-6 hours", "Grind urad dal first to a fluffy batter, then grind rice", "Mix both batters, add salt, and ferment overnight (8-12 hours)", "The batter should double in size and have a slightly sour smell", "Heat a cast iron or non-stick tawa on medium-high heat", "Pour a ladleful of batter and spread in circular motion from center outwards", "Drizzle oil around the edges and on top", "Cook until the bottom is golden and crispy", "Add filling if making masala dosa, fold and serve with chutney and sambar"];
+            } else if (n.includes('idli')) {
+                return ["Soak rice and urad dal separately for 4-6 hours", "Grind urad dal to a smooth, fluffy batter", "Grind rice to a slightly coarse batter", "Mix both batters with salt and ferment overnight", "Grease idli molds with oil", "Pour batter into each mold, filling 3/4th", "Steam in an idli steamer for 10-12 minutes", "Check with a toothpick - it should come out clean", "Let cool slightly, remove with wet spoon, serve hot with chutney and sambar"];
+            } else if (n.includes('halwa') || n.includes('kesari')) {
+                return ["If using vegetables, grate them finely", "Roast the main ingredient (rava/flour) in ghee until golden and aromatic", "Boil water/milk with sugar to make syrup", "Slowly add the hot syrup to the roasted ingredient, stirring continuously", "Be careful of spluttering. Keep stirring to avoid lumps", "Add cardamom powder and saffron strands", "Cook on low heat until the mixture thickens and leaves the sides", "Add more ghee and roasted nuts (cashews, almonds)", "Serve warm, garnished with nuts"];
+            } else if (n.includes('tikka') || n.includes('tandoori')) {
+                return ["Cut the main ingredient into bite-sized pieces", "Make marinade with thick curd, ginger-garlic paste, tikka/tandoori masala, lemon juice, and oil", "Coat the pieces well and refrigerate for 2-4 hours (overnight for best results)", "Preheat oven to 220°C or prepare a charcoal grill", "Thread marinated pieces onto skewers", "Grill/bake for 15-20 minutes, turning halfway", "Baste with butter or oil while cooking", "The edges should be slightly charred", "Serve hot with mint chutney and onion rings"];
+            } else {
+                return ["Gather and prepare all ingredients - wash, chop, and measure", "Heat oil or ghee in an appropriate pan", "Add tempering spices (mustard seeds, cumin, curry leaves) if required", "Add onions and sauté until translucent or golden as needed", "Add ginger-garlic paste and cook for 1-2 minutes", "Add the main ingredients and mix well", "Add required spices, salt, and water if needed", "Cook covered on medium heat until done", "Adjust seasoning, garnish with fresh herbs, and serve hot"];
+            }
+        }
+
+        // SMART SEARCH FUNCTION
+        function search() {
+            const input = document.getElementById('searchInput').value.trim().toLowerCase();
+            if (!input) { alert('Please enter a dish name or ingredient!'); return; }
+
+            showLoading();
+            searchKeyword = input;
+
+            setTimeout(() => {
+                // 1. EXACT MATCH - Full dish name
+                for (const name of Object.keys(recipes)) {
+                    if (name.toLowerCase() === input) {
+                        showRecipe(name);
+                        return;
+                    }
+                }
+
+                // 2. KEYWORD SEARCH - Find all dishes containing the keyword
+                const keywordMatches = [];
+                for (const [name, data] of Object.entries(recipes)) {
+                    const nameLower = name.toLowerCase();
+                    const keywords = data.keywords || [];
+
+                    // Check if keyword is in dish name or keywords array
+                    if (nameLower.includes(input) ||
+                        keywords.some(k => k.includes(input)) ||
+                        input.split(' ').every(word => nameLower.includes(word) || keywords.some(k => k.includes(word)))) {
+                        keywordMatches.push({ name, type: data.type });
+                    }
+                }
+
+                if (keywordMatches.length > 0) {
+                    showKeywordResults(keywordMatches, input);
+                    return;
+                }
+
+                // 3. INGREDIENT SEARCH - Find recipes by ingredients
+                const userIngs = input.split(/[,\s]+/).filter(i => i.length > 1);
+                const results = [];
+
+                for (const [name, data] of Object.entries(recipes)) {
+                    let matchCount = 0;
+                    const recipeIngs = data.ingredients;
+
+                    for (const ri of recipeIngs) {
+                        for (const ui of userIngs) {
+                            if (ri.toLowerCase().includes(ui) || ui.includes(ri.toLowerCase())) {
+                                matchCount++;
+                                break;
+                            }
+                        }
+                    }
+
+                    const matchPct = (matchCount / recipeIngs.length) * 100;
+
+                    if (matchCount >= 2 || matchPct >= 25) {
+                        const missing = recipeIngs.filter(ri =>
+                            !userIngs.some(ui => ri.toLowerCase().includes(ui) || ui.includes(ri.toLowerCase()))
+                        );
+                        results.push({ name, matchCount, matchPct, missing, type: data.type });
+                    }
+                }
+
+                if (results.length > 0) {
+                    results.sort((a, b) => b.matchCount - a.matchCount || b.matchPct - a.matchPct);
+                    showIngredientResults(results);
+                } else {
+                    showNoResults();
+                }
+            }, 400);
+        }
+
+        function quickSearch(term) {
+            document.getElementById('searchInput').value = term;
+            search();
+        }
+
+        // Show keyword-based results (e.g., "chicken" shows all chicken dishes)
+        function showKeywordResults(matches, keyword) {
+            hideAll();
+            hideLoading();
+            document.getElementById('resultsSection').classList.remove('hidden');
+            document.getElementById('resultsTitle').textContent = `"${keyword}" Recipes`;
+            previousView = 'results';
+
+            const info = document.getElementById('resultsInfo');
+            info.className = 'results-info keyword';
+            info.innerHTML = `<i class="fas fa-lightbulb"></i> Found <strong>${matches.length}</strong> ${keyword} recipes. Select one to view the full recipe!`;
+
+            const grid = document.getElementById('resultsGrid');
+            grid.innerHTML = matches.map(r => `
+        <div class="recipe-card ${r.type}" onclick="showRecipe('${r.name}')">
+            <div class="recipe-card-header">
+                <h3>${r.name}</h3>
+                <span class="recipe-badge ${r.type}">${r.type === 'veg' ? '🥬 Veg' : '🍗 Non-Veg'}</span>
+            </div>
+            <div class="recipe-match"><i class="fas fa-utensils"></i> Click to view recipe</div>
+        </div>
+    `).join('');
+        }
+
+        // Show ingredient-based results
+        function showIngredientResults(results) {
+            hideAll();
+            hideLoading();
+            document.getElementById('resultsSection').classList.remove('hidden');
+            document.getElementById('resultsTitle').textContent = 'Matching Recipes';
+            previousView = 'results';
+
+            const info = document.getElementById('resultsInfo');
+            info.className = 'results-info';
+            info.innerHTML = `<i class="fas fa-check-circle"></i> Found <strong>${results.length}</strong> recipes matching your ingredients!`;
+
+            const grid = document.getElementById('resultsGrid');
+            grid.innerHTML = results.slice(0, 20).map(r => `
+        <div class="recipe-card ${r.type}" onclick="showRecipe('${r.name}')">
+            <div class="recipe-card-header">
+                <h3>${r.name}</h3>
+                <span class="recipe-badge ${r.type}">${r.type === 'veg' ? '🥬 Veg' : '🍗 Non-Veg'}</span>
+            </div>
+            <div class="recipe-match"><i class="fas fa-check"></i> ${r.matchCount} ingredients match (${Math.round(r.matchPct)}%)</div>
+            <div class="recipe-missing ${r.missing.length === 0 ? 'complete' : ''}">
+                ${r.missing.length === 0 ? '<i class="fas fa-star"></i> You have all ingredients!' : '<i class="fas fa-shopping-cart"></i> Need: ' + r.missing.slice(0, 3).join(', ') + (r.missing.length > 3 ? '...' : '')}
+            </div>
+        </div>
+    `).join('');
+        }
+
+        function showNoResults() {
+            hideAll();
+            hideLoading();
+            document.getElementById('resultsSection').classList.remove('hidden');
+            document.getElementById('resultsTitle').textContent = 'Search Results';
+            document.getElementById('resultsInfo').innerHTML = '';
+            document.getElementById('resultsGrid').innerHTML = `
+        <div class="no-results">
+            <i class="fas fa-search"></i>
+            <h3>No recipes found</h3>
+            <p>Try searching for a dish name like "biryani" or "chicken", or browse categories</p>
+            <button class="browse-btn" onclick="showCategories()"><i class="fas fa-th-large"></i> Browse Categories</button>
+        </div>
+    `;
+        }
+
+        function showLoading() { document.getElementById('loading').classList.remove('hidden'); }
+        function hideLoading() { document.getElementById('loading').classList.add('hidden'); }
+
+        function hideAll() {
+            ['searchSection', 'aboutSection', 'resultsSection', 'categoriesSection', 'dishesSection', 'recipeSection'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+        }
+
+        function showSearch() {
+            hideAll();
+            hideLoading();
+            document.getElementById('searchSection').classList.remove('hidden');
+        }
+
+        function toggleAbout() {
+            const about = document.getElementById('aboutSection');
+            if (about.classList.contains('hidden')) {
+                hideAll();
+                about.classList.remove('hidden');
+            } else {
+                showSearch();
+            }
+        }
+
+        function showCategories() {
+            hideAll();
+            hideLoading();
+            document.getElementById('categoriesSection').classList.remove('hidden');
+            previousView = 'categories';
+
+            const grid = document.getElementById('categoriesGrid');
+            const vegCats = Object.entries(categories).filter(([_, v]) => v.type === 'veg');
+            const nonVegCats = Object.entries(categories).filter(([_, v]) => v.type === 'non-veg' || v.type === 'mixed');
+
+            let html = `<div class="category-type">
+        <div class="category-type-header veg"><i class="fas fa-leaf"></i><h3>Vegetarian</h3></div>
+        <div class="category-grid">`;
+            vegCats.forEach(([name, data]) => {
+                html += `<div class="category-card veg" onclick="showDishes('${name}')"><h4>${name}</h4><span>${data.dishes.length} dishes</span></div>`;
+            });
+            html += `</div></div>`;
+
+            html += `<div class="category-type">
+        <div class="category-type-header nonveg"><i class="fas fa-drumstick-bite"></i><h3>Non-Vegetarian</h3></div>
+        <div class="category-grid">`;
+            nonVegCats.forEach(([name, data]) => {
+                html += `<div class="category-card nonveg" onclick="showDishes('${name}')"><h4>${name}</h4><span>${data.dishes.length} dishes</span></div>`;
+            });
+            html += `</div></div>`;
+
+            grid.innerHTML = html;
+        }
+
+        function showDishes(category) {
+            hideAll();
+            document.getElementById('dishesSection').classList.remove('hidden');
+            document.getElementById('dishesTitle').textContent = category;
+            previousView = 'dishes';
+
+            const data = categories[category];
+            const grid = document.getElementById('dishesGrid');
+            grid.innerHTML = data.dishes.map(d => `<div class="dish-card" onclick="showRecipe('${d}')">${d}</div>`).join('');
+        }
+
+        function showRecipe(name) {
+            hideAll();
+            hideLoading();
+            document.getElementById('recipeSection').classList.remove('hidden');
+
+            const recipe = recipes[name];
+            if (!recipe) { alert('Recipe not found'); showSearch(); return; }
+
+            document.getElementById('recipeTitle').textContent = name;
+            const badge = document.getElementById('recipeTypeBadge');
+            badge.className = `recipe-type-badge ${recipe.type}`;
+            badge.innerHTML = recipe.type === 'veg' ? '<i class="fas fa-leaf"></i> Vegetarian' : '<i class="fas fa-drumstick-bite"></i> Non-Vegetarian';
+
+            document.getElementById('ingredientsList').innerHTML = recipe.ingredients.map(i =>
+                `<li><i class="fas fa-check-circle"></i> ${i.charAt(0).toUpperCase() + i.slice(1)}</li>`
+            ).join('');
+
+            document.getElementById('instructionsList').innerHTML = getInstructions(name).map(i => `<li>${i}</li>`).join('');
+        }
+
+        function goBack() {
+            if (previousView === 'results') {
+                hideAll();
+                document.getElementById('resultsSection').classList.remove('hidden');
+            } else if (previousView === 'dishes') {
+                hideAll();
+                document.getElementById('dishesSection').classList.remove('hidden');
+            } else if (previousView === 'categories') {
+                showCategories();
+            } else {
+                showSearch();
+            }
+        }
+
+        // Enter key support
+        document.getElementById('searchInput').addEventListener('keypress', e => { if (e.key === 'Enter') search(); });
+    </script>
+</body>
+
+</html>
