@@ -1,4 +1,4 @@
-// Recipe AI - Frontend Application
+// Recipe Chatbot AI - Frontend Application
 
 // API Base URL (works for both local dev and Netlify)
 const API_BASE = '/api';
